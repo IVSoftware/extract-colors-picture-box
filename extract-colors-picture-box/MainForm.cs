@@ -50,16 +50,18 @@ namespace extract_colors_picture_box
             if (_displayImage != null)
             {
                 // Create a circular region to clip the image
-                GraphicsPath path = new GraphicsPath();
-                path.AddEllipse(borderRect);
-                Region region = new Region(path);
-                e.Graphics.Clip = region;
+                using (GraphicsPath path = new GraphicsPath())
+                {
+                    path.AddEllipse(borderRect);
+                    Region region = new Region(path);
+                    e.Graphics.Clip = region;
 
-                // Draw the clipped image
-                e.Graphics.DrawImage(_displayImage, borderRect);
+                    // Draw the clipped image
+                    e.Graphics.DrawImage(_displayImage, borderRect);
 
-                // Reset the clip region
-                e.Graphics.ResetClip();
+                    // Reset the clip region
+                    e.Graphics.ResetClip();
+                }
             }
             // Draw extracted colors inside the circle
             if(_busy.Wait(0))
