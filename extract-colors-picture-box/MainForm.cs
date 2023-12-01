@@ -37,33 +37,23 @@ namespace extract_colors_picture_box
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-
-            int borderWidth = 2; // Border width
+            int borderWidth = 2;
             Rectangle borderRect = new Rectangle(borderWidth, borderWidth, Width - 2 * borderWidth, Height - 2 * borderWidth);
             Pen p = new Pen(Color.Red, borderWidth);
-
             e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
-            // Draw the circular red border
             e.Graphics.DrawEllipse(p, borderRect);
-
             if (_displayImage != null)
             {
-                // Create a circular region to clip the image
+                // Dispose GraphicPath per Jimi comment.
                 using (GraphicsPath path = new GraphicsPath())
                 {
                     path.AddEllipse(borderRect);
                     Region region = new Region(path);
                     e.Graphics.Clip = region;
-
-                    // Draw the clipped image
                     e.Graphics.DrawImage(_displayImage, borderRect);
-
-                    // Reset the clip region
                     e.Graphics.ResetClip();
                 }
             }
-            // Draw extracted colors inside the circle
             if(_busy.Wait(0))
             {
                 try
@@ -139,7 +129,7 @@ namespace extract_colors_picture_box
         {
             Dictionary<Color, int> uniqueColors = new Dictionary<Color, int>();
             var stopwatch = Stopwatch.StartNew();
-            uniqueColors.Clear();
+            int counter = 0;
             if (image != null)
             {
                 Bitmap bitmap = new Bitmap(image);
