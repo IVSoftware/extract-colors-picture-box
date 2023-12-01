@@ -6,7 +6,6 @@ using System.Drawing.Imaging;
 
 namespace extract_colors_picture_box
 {
-    // https://unsplash.com/photos/scenery-of-waterfalls-dnStBR008JM
     public partial class MainForm : Form
     {
         public MainForm()
@@ -20,6 +19,8 @@ namespace extract_colors_picture_box
                     progressBar.Value = e.ProgressPercentage;
                     progressBar.Invalidate();
                 });
+                // Use with caution!
+                Application.DoEvents();
             };
         }
     }
@@ -216,19 +217,34 @@ namespace extract_colors_picture_box
         int _prevProgress = 100;
         private void DrawExtractedColors(Graphics g, Rectangle circleRect)
         {
-            var colors = _extractedColorsHistogram.Keys.ToArray(); ;
+            var stopwatch = Stopwatch.StartNew();
+            var colors = _extractedColorsHistogram.Keys.ToArray();
+            _prevProgress = -1;
             if (_extractedColorsHistogram.Any())
             {
                 float angle = 360f / colors.Length;
-                for (int i = 1; i < colors.Length; i++)
+                for (int i = 0; i < colors.Length; i++)
                 {
                     using (SolidBrush brush = new SolidBrush(colors[i]))
                     {
                         float startAngle = i * angle;
                         g.FillPie(brush, circleRect, startAngle, angle);
                     }
+                    var progressPreview = i * 100 / colors.Length;
+                    if (progressPreview != _prevProgress)
+                    {
+                        ProgressChanged?.Invoke(
+                            this,
+                            new ProgressChangedEventArgs(
+                                progressPreview, stopwatch.Elapsed));
+                        _prevProgress = progressPreview;
+                    }
                 }
             }
+            ProgressChanged?.Invoke(
+                this,
+                new ProgressChangedEventArgs(
+                    100, stopwatch.Elapsed));
         }
     }
 }
