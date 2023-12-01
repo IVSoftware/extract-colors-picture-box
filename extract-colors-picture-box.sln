@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "extract-colors-picture-box", "extract-colors-picture-box\extract-colors-picture-box.csproj", "{49241BC4-EBD7-4A49-A46D-4403E665FD7D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49241BC4-EBD7-4A49-A46D-4403E665FD7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49241BC4-EBD7-4A49-A46D-4403E665FD7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49241BC4-EBD7-4A49-A46D-4403E665FD7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49241BC4-EBD7-4A49-A46D-4403E665FD7D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7503C556-5884-40FA-A793-0032D1A711C4}
+	EndGlobalSection
+EndGlobal

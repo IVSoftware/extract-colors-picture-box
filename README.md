@@ -1,0 +1,1 @@
+# extract-colors-picture-box
