@@ -5,7 +5,7 @@ The source project has several issues. Let's take them one by one.
 ___
 **Bottleneck**
 
-The source project is attempting to update a progress bar. But the reason for needing one seems to be the terrible bottleneck caused by `uniqueColors.Contains(pixelColor)` in this `ExtractUniqueColorsAsync(Image image)` that we can fix using an indexed collection.
+The source project is attempting to update a progress bar. But the reason for needing one seems to be the terrible bottleneck caused by `uniqueColors.Contains(pixelColor)` in this `ExtractUniqueColorsAsync(Image image)` that we can fix using an indexed collection. 
 
 ```
 private async Task ExtractUniqueColorsAsync(Image image)
@@ -98,6 +98,37 @@ private async Task ExtractUniqueColorsAsync(Image image)
 }
 int _prevProgress = 100;
 ```
+___
+
+**Progress**
+
+The main form hosts a progress bar. The `MyCustomPicturebox` class should be the provider of a `ProgressChanged` event and not require an `Action()` to be injected.
+
+```
+class MyCustomPicturebox : Control
+{
+    public event ProgressChangedEventHandler? ProgressChanged;
+    .
+    .
+}
+```
+
+Then, when you consider that (for example) a 1932 x 2576 image could potentially have close to 5 million unique colors but the progress bar has only 100 increments, it seems more reasonable to fire the event only when the integer value of progress changes.
+
+```
+var progressPreview = Convert.ToInt32((double)(y * width + x) / (width * height) * 100);
+// Send only when integer changes.
+if (progressPreview != _prevProgress)
+{
+    ProgressChanged?.Invoke(
+        this,
+        new ProgressChangedEventArgs(
+            progressPreview, stopwatch.Elapsed));
+    _prevProgress = progressPreview;
+}
+```
+
+
 
 
 
