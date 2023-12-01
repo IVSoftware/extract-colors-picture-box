@@ -5,7 +5,7 @@ The source project has several issues. Let's take them one by one.
 ___
 **Bottleneck**
 
-The source project is attempting to update a progress bar. But the reason for needing one seems to be the terrible bottleneck caused by `uniqueColors.Contains(pixelColor)` in this method:
+The source project is attempting to update a progress bar. But the reason for needing one seems to be the terrible bottleneck caused by `uniqueColors.Contains(pixelColor)` in this `ExtractUniqueColorsAsync(Image image)` that we can fix using an indexed collection.
 
 ```
 private async Task ExtractUniqueColorsAsync(Image image)
